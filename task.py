@@ -51,3 +51,16 @@ class GestorDeTareas:
         # Guarda la lista de tareas en el archivo.
         with open(self.nombre_de_archivo, "w", encoding="utf-8") as archivo:  
             json.dump(self.lista_de_tareas, archivo, indent=4, ensure_ascii=False)
+
+
+
+if __name__ == "__main__":
+    # Creamos la instancia del gestor
+    gestor = GestorDeTareas()
+
+    # Verificamos que se haya pasado el comando 'add' y la descripción
+    if len(sys.argv) > 2 and sys.argv[1] == "add":
+        descripcion_tarea = sys.argv[2]
+        gestor.agregar_tarea(descripcion_tarea)
+    else:
+        print("Uso correcto: python task.py add 'Descripción de la tarea'")            
