@@ -74,7 +74,22 @@ class GestorDeTareas:
                 break
         if not encontrada:
             print("ID no encontrado.")
+    
+    def eliminar_tarea(self,id_tarea):
+        #Elimina una tarea de la lista.
+        encontrada = False
+        for tarea in self.lista_de_tareas:
+            if tarea['id'] == int(id_tarea):
+                tarea['estado'] = 'Completado'
+                self.lista_de_tareas.remove(tarea)
+                self.guardar_en_archivo()
+                print(f"Tarea con ID: {id_tarea} Borrada.")
+                encontrada = True
+                break
+        if not encontrada:
+            print("ID no encontrado.")
 
+    
 
 
 if __name__ == "__main__":
@@ -88,9 +103,10 @@ if __name__ == "__main__":
         elif comando == "list":
             gestor.enlistar_tareas()
         elif comando == "done" and len(sys.argv) > 2:
-            # sys.argv[2] será el ID de la tarea que queremos completar
             gestor.marcar_tarea_completada(sys.argv[2])
+        elif comando == "delete" and len(sys.argv) > 2:
+            gestor.eliminar_tarea(sys.argv[2])
         else:
             print("Comando inválido o faltan argumentos.")
     else:
-        print("Uso: python task.py [add/list/done] [argumento]")
+        print("Uso: python task.py [add/list/done/delete] [argumento]")
