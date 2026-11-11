@@ -52,15 +52,27 @@ class GestorDeTareas:
         with open(self.nombre_de_archivo, "w", encoding="utf-8") as archivo:  
             json.dump(self.lista_de_tareas, archivo, indent=4, ensure_ascii=False)
 
-
+    def enlistar_tareas(self):
+        #Enlista las tareas que haya en el json.
+        if  not self.lista_de_tareas:
+            print("No hay tareas pendientes.")
+        else:
+            print("--- LISTA DE TAREAS: ---")
+            for tarea in self.lista_de_tareas:
+                print(f"ID: {tarea['id']} | ESTADO: {tarea['estado']}  {tarea['descripcion']} CREADO: {tarea['creado_el']}")
+                print("------------------------")
 
 if __name__ == "__main__":
-    # Creamos la instancia del gestor
     gestor = GestorDeTareas()
 
-    # Verificamos que se haya pasado el comando 'add' y la descripción
-    if len(sys.argv) > 2 and sys.argv[1] == "add":
-        descripcion_tarea = sys.argv[2]
-        gestor.agregar_tarea(descripcion_tarea)
+    if len(sys.argv) > 1:
+        comando = sys.argv[1]
+        
+        if comando == "add" and len(sys.argv) > 2:
+            gestor.agregar_tarea(sys.argv[2])
+        elif comando == "list":
+            gestor.enlistar_tareas()
+        else:
+            print("Comando inválido o faltan argumentos. Usa 'add [tarea]' o 'list'.")
     else:
-        print("Uso correcto: python task.py add 'Descripción de la tarea'")            
+        print("Uso: python task.py [add/list]")         
