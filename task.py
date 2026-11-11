@@ -62,6 +62,21 @@ class GestorDeTareas:
                 print(f"ID: {tarea['id']} | ESTADO: {tarea['estado']}  {tarea['descripcion']} CREADO: {tarea['creado_el']}")
                 print("------------------------")
 
+    def marcar_tarea_completada(self,id_tarea):
+        #Marca una tarea  como completada.
+        encontrada = False
+        for tarea in self.lista_de_tareas:
+            if tarea['id'] == int(id_tarea):
+                tarea['estado'] = 'Completado'
+                self.guardar_en_archivo()
+                print(f"Tarea con ID: {id_tarea} Marcada como completada.")
+                encontrada = True
+                break
+        if not encontrada:
+            print("ID no encontrado.")
+
+
+
 if __name__ == "__main__":
     gestor = GestorDeTareas()
 
@@ -72,7 +87,10 @@ if __name__ == "__main__":
             gestor.agregar_tarea(sys.argv[2])
         elif comando == "list":
             gestor.enlistar_tareas()
+        elif comando == "done" and len(sys.argv) > 2:
+            # sys.argv[2] será el ID de la tarea que queremos completar
+            gestor.marcar_tarea_completada(sys.argv[2])
         else:
-            print("Comando inválido o faltan argumentos. Usa 'add [tarea]' o 'list'.")
+            print("Comando inválido o faltan argumentos.")
     else:
-        print("Uso: python task.py [add/list]")         
+        print("Uso: python task.py [add/list/done] [argumento]")
